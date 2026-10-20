@@ -23,7 +23,7 @@ El backend (esquema, políticas de seguridad, RPCs y seed) está en `supabase/` 
 
 ## Empezar
 
-Requisitos: Node.js 20 o superior.
+Requisitos: Node.js 20.12 o superior.
 
 ```bash
 git clone https://github.com/Josue049/DALE-web.git
@@ -58,6 +58,7 @@ Sin `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY`, la app arranca en modo vista
 | `npm run lint` | Comprobación de tipos con `tsc --noEmit` |
 | `npm test` | Tests de base de datos (migraciones, RLS y flujos) sobre PGlite |
 | `npm run test:e2e` | Tests end-to-end con Playwright, en escritorio y móvil |
+| `npm run make-admin -- <correo>` | Da el rol de administrador a un usuario ya registrado. Requiere `SUPABASE_SERVICE_ROLE_KEY` |
 
 ## Estructura
 
@@ -107,3 +108,7 @@ El proyecto incluye `vercel.json` y `public/_redirects` para que el enrutado SPA
 El motor de scroll y las escenas animadas parten del proyecto SELENE. En [`docs/selene-migration.md`](docs/selene-migration.md) se detalla cómo se adaptó cada parte.
 
 El logo y la identidad visual pertenecen a DALE CON TODO.
+
+## Licencia
+
+El código se distribuye bajo la licencia [MIT](LICENSE). El logo y la identidad visual de DALE CON TODO no están incluidos en esta licencia.
