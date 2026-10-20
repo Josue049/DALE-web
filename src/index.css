@@ -1,0 +1,325 @@
+@import "tailwindcss";
+
+/* Lenis' own stylesheet (its package exports don't expose the .css path). */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------------
+   Sistema de diseño DALE CON TODO — tokens extraídos del logo.
+   Display: Archivo a 125 de ancho y 800–900 de peso: contundente, ancho.
+   Texto:   Manrope (heredada de SELENE).
+   Mono:    IBM Plex Mono para numeraciones, agenda y datos.
+   ------------------------------------------------------------------ */
+@theme {
+  --font-display: "Archivo", "Arial Black", "Helvetica Neue", sans-serif;
+  --font-sans: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+
+  /* Muestreado del logo: fondo #121832, contorno rojo/magenta, banda azul. */
+  --color-noche: #101831;
+  --color-noche-2: #151e3c;
+  --color-noche-3: #1c2750;
+  --color-tinta: #0a1024;
+  --color-rojo: #db354a;
+  --color-magenta: #af286c;
+  --color-azul: #74b1e0;
+  --color-blanco: #f5f7fb;
+  --color-niebla: #b9c2da;
+  --color-gris: #8a94b2;
+  --color-ok: #5fd39a;
+  --color-alerta: #f2b950;
+
+  --text-hero: clamp(2.5rem, 9vw, 9.5rem);
+  --text-hero--line-height: 0.92;
+  --text-hero--letter-spacing: -0.01em;
+
+  --text-display: clamp(1.9rem, 4.4vw, 4.25rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.01em;
+
+  --text-title: clamp(1.35rem, 2.2vw, 2rem);
+  --text-title--line-height: 1.1;
+
+  --text-lead: clamp(1.0625rem, 1.5vw, 1.375rem);
+  --text-lead--line-height: 1.5;
+  --text-lead--letter-spacing: -0.01em;
+
+  --text-body: clamp(0.9375rem, 1.05vw, 1.0625rem);
+  --text-body--line-height: 1.65;
+  --text-body--letter-spacing: -0.005em;
+
+  --text-label: 0.6875rem;
+  --text-label--line-height: 1.3;
+  --text-label--letter-spacing: 0.16em;
+
+  --animate-leg-in: leg-in 0.6s cubic-bezier(0.2, 0.7, 0.1, 1);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    background: var(--color-noche);
+    color-scheme: dark;
+  }
+  body {
+    margin: 0;
+    background: var(--color-noche);
+    color: var(--color-niebla);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--color-rojo);
+    color: var(--color-blanco);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-azul);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+  [hidden] {
+    display: none !important;
+  }
+}
+
+@layer components {
+  /* Display ancho del sistema. */
+  .font-wide {
+    font-family: var(--font-display);
+    font-stretch: 125%;
+    font-variation-settings: "wdth" 125;
+    font-weight: 850;
+    text-transform: uppercase;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--text-label--letter-spacing);
+    line-height: var(--text-label--line-height);
+    text-transform: uppercase;
+    color: var(--color-azul);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 2.875rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: background-color 0.25s, color 0.25s, box-shadow 0.25s, transform 0.25s;
+    white-space: nowrap;
+  }
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .btn-primary {
+    background: var(--color-rojo);
+    color: var(--color-blanco);
+    box-shadow: 0 10px 30px -12px rgb(219 53 74 / 0.7);
+  }
+  .btn-primary:not(:disabled):hover {
+    background: #e64a5e;
+    transform: translateY(-1px);
+  }
+  .btn-light {
+    background: var(--color-blanco);
+    color: var(--color-noche);
+  }
+  .btn-light:not(:disabled):hover {
+    background: var(--color-azul);
+  }
+  .btn-ghost {
+    color: var(--color-blanco);
+    box-shadow: inset 0 0 0 1px rgb(245 247 251 / 0.28);
+  }
+  .btn-ghost:not(:disabled):hover {
+    background: rgb(245 247 251 / 0.08);
+    box-shadow: inset 0 0 0 1px rgb(245 247 251 / 0.6);
+  }
+  .btn-sm {
+    min-height: 2.25rem;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.6875rem;
+  }
+
+  .field {
+    width: 100%;
+    border-radius: 10px;
+    background: rgb(245 247 251 / 0.04);
+    padding: 0.8rem 1rem;
+    color: var(--color-blanco);
+    font-size: 0.9375rem;
+    box-shadow: inset 0 0 0 1px rgb(245 247 251 / 0.16);
+    outline: none;
+    transition: box-shadow 0.2s, background-color 0.2s;
+  }
+  .field::placeholder {
+    color: rgb(185 194 218 / 0.45);
+  }
+  .field:focus {
+    box-shadow: inset 0 0 0 2px var(--color-azul);
+    background: rgb(245 247 251 / 0.06);
+  }
+  .field:user-invalid {
+    box-shadow: inset 0 0 0 1.5px rgb(219 53 74 / 0.85);
+  }
+  select.field {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--color-niebla) 50%), linear-gradient(135deg, var(--color-niebla) 50%, transparent 50%);
+    background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+    background-size: 5px 5px;
+    background-repeat: no-repeat;
+    padding-right: 2.25rem;
+  }
+  select.field option {
+    background: var(--color-noche-2);
+  }
+  .label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgb(185 194 218 / 0.8);
+  }
+
+  .card {
+    border-radius: 18px;
+    background: var(--color-noche-2);
+    box-shadow: inset 0 0 0 1px rgb(245 247 251 / 0.08);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 999px;
+    padding: 0.3rem 0.65rem;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    box-shadow: inset 0 0 0 1px rgb(245 247 251 / 0.18);
+    color: var(--color-niebla);
+  }
+
+  .prose-dale {
+    color: rgb(185 194 218 / 0.9);
+    line-height: 1.75;
+    white-space: pre-line;
+  }
+
+  .table-dale {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+  .table-dale th {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-gris);
+    font-weight: 500;
+    padding: 0.75rem 0.75rem;
+    border-bottom: 1px solid rgb(245 247 251 / 0.1);
+    white-space: nowrap;
+  }
+  .table-dale td {
+    padding: 0.75rem;
+    border-bottom: 1px solid rgb(245 247 251 / 0.06);
+    vertical-align: top;
+    color: var(--color-niebla);
+  }
+}
+
+@layer utilities {
+  .h-screen-s {
+    height: 100svh;
+  }
+  .min-h-screen-s {
+    min-height: 100svh;
+  }
+
+  /* Esquinas tipo HUD, heredadas de SELENE. */
+  .brackets {
+    background:
+      linear-gradient(currentColor, currentColor) top left / 14px 1px,
+      linear-gradient(currentColor, currentColor) top left / 1px 14px,
+      linear-gradient(currentColor, currentColor) top right / 14px 1px,
+      linear-gradient(currentColor, currentColor) top right / 1px 14px,
+      linear-gradient(currentColor, currentColor) bottom left / 14px 1px,
+      linear-gradient(currentColor, currentColor) bottom left / 1px 14px,
+      linear-gradient(currentColor, currentColor) bottom right / 14px 1px,
+      linear-gradient(currentColor, currentColor) bottom right / 1px 14px;
+    background-repeat: no-repeat;
+  }
+
+  /* Grano discreto (SVG feTurbulence, sin descargas). */
+  .grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .text-gradient-brand {
+    background: linear-gradient(90deg, var(--color-rojo), var(--color-magenta) 55%, var(--color-azul));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+    transition:
+      opacity 0.9s cubic-bezier(0.2, 0.7, 0.1, 1),
+      transform 0.9s cubic-bezier(0.2, 0.7, 0.1, 1);
+  }
+  [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+      transform: none;
+      transition: opacity 0.3s;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@keyframes leg-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+}
